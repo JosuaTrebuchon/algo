@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Tas.h"
+#include <cmath>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ void afficher(int n, int* T)
 {
   cout << "[ ";
   int i = 0;
-  for(i; i < n-1; i++){
+  for(; i < n-1; i++){
     cout << T[i] << ", ";
   }
   cout << T[n-1] << " ]"<< endl;
@@ -70,7 +71,6 @@ void tableauManuel(int n, int* T)
 
 void tableauAleatoire(int n, int* T, int m, int M)
 {
-  //srand(time(NULL));
   int random;
   for(int i = 0; i<n; i++){
     random = rand()%(M+1) + m;
@@ -80,22 +80,52 @@ void tableauAleatoire(int n, int* T, int m, int M)
 
 void entasser(int n, int* T, int i)
 {
-  // A compléter
+  int m = i, g = 2*i+1, d = 2*i+2;
+  if(g < n && T[g] > T[m]){
+    m = g;
+  }
+  if(d < n && T[d] > T[m]){
+    m = d;
+  }
+  if(m != i){
+    int temp = T[i];
+    T[i] = T[m];
+    T[m] = temp;
+    entasser(n, T, m);
+  }
 }
 
 void tas(int n, int* T)
 {
-  // A compléter
+  for(int i = floor(n/2)-1; i >= 0; i--){
+    entasser(n, T, i);
+  } 
 }
 
 int* trier(int n, int* T)
 {
   int* Ttrie;
-  return Ttrie; // A modifier...
+  tas(n, T);
+  int taille = n;
+  for(int i = n-1; i >= 0; i--){
+    Ttrie[i] = T[0];
+    T[0] = T[taille-1];
+    taille = taille - 1;
+    entasser(taille, T, 0);
+  }
+  return Ttrie;
 }
 
 void trierSurPlace(int n, int* T)
 {
-  // A compléter
+  tas(n, T);
+  int taille = n;
+  for(int i = n-1; i >= 0; i--){
+    int temp = T[0];
+    T[0] = T[taille-1];
+    T[taille-1] = temp;
+    taille = taille - 1;
+    entasser(taille,T, 0);
+  }
 }
 
