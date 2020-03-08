@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Tas.h"
-#include <cmath>
+
 
 using namespace std;
 
@@ -16,7 +16,7 @@ void afficher(int n, int* T)
   for(; i < n-1; i++){
     cout << T[i] << ", ";
   }
-  cout << T[n-1] << " ]"<< endl;
+  cout << T[n-1] << " ]    Taille = "<< n << endl;
 } 
 
 bool estTasMax(int n, int* T)
@@ -81,6 +81,7 @@ void tableauAleatoire(int n, int* T, int m, int M)
 void entasser(int n, int* T, int i)
 {
   int m = i, g = 2*i+1, d = 2*i+2;
+  
   if(g < n && T[g] > T[m]){
     m = g;
   }
@@ -97,14 +98,14 @@ void entasser(int n, int* T, int i)
 
 void tas(int n, int* T)
 {
-  for(int i = floor(n/2)-1; i >= 0; i--){
+  for(int i = (n/2)-1; i >= 0; i--){
     entasser(n, T, i);
   } 
 }
 
 int* trier(int n, int* T)
 {
-  int* Ttrie;
+  int* Ttrie = new int[n];
   tas(n, T);
   int taille = n;
   for(int i = n-1; i >= 0; i--){
